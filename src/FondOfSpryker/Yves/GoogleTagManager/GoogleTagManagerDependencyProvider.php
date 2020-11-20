@@ -28,6 +28,20 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
+    protected function addDefaultGoogleTagManagerExtensionPlugins(Container $container): Container
+    {
+        $container->set(static::DEFAULT_VARIABLE_PLUGINS, function () {
+            return $this->getDefaultGoogleTagManagerExtensionPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
     protected function addGoogleTagManagerVariableBuilderPlugins(Container $container): Container
     {
         $container->set(static::VARIABLE_BUILDER_PLUGINS, function () {
@@ -59,20 +73,6 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
     protected function getGoogleTagManagerProductCategoryVariableBuilderPlugins(): array
     {
         return [];
-    }
-
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
-    protected function addDefaultGoogleTagManagerExtensionPlugins(Container $container): Container
-    {
-        $container->set(static::DEFAULT_VARIABLE_PLUGINS, function () {
-            return $this->getDefaultGoogleTagManagerExtensionPlugins();
-        });
-
-        return $container;
     }
 
     /**
