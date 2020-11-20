@@ -18,11 +18,6 @@ class GoogleTagManagerTwigExtension extends AbstractTwigExtensionPlugin
     public const FUNCTION_DATA_LAYER = 'dataLayer';
 
     /**
-     * @var array
-     */
-    protected $dataLayerVariables = [];
-
-    /**
      * @return array
      */
     public function getFunctions(): array
@@ -134,111 +129,10 @@ class GoogleTagManagerTwigExtension extends AbstractTwigExtensionPlugin
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ProductAbstractTransfer $product
-     *
-     * @return array
-     */
-    protected function addProductVariables(ProductAbstractTransfer $product): array
-    {
-        $productVariableBuilder = $this->getFactory()
-            ->getProductVariableBuilder();
-
-        return $this->dataLayerVariables = array_merge(
-            $this->dataLayerVariables,
-            $productVariableBuilder->getVariables($product)
-        );
-    }
-
-    /**
-     * @param array $category
-     * @param array $products
-     * @param string $contentType
-     *
-     * @return array
-     */
-    protected function addCategoryVariables($category, $products, string $contentType): array
-    {
-        $categoryVariableBuilder = $this->getFactory()->getCategoryVariableBuilderPlugin();
-
-        return $this->dataLayerVariables = array_merge(
-            $this->dataLayerVariables,
-            $categoryVariableBuilder->getVariables($category, $products, [
-                'contentType' => $contentType,
-            ])
-        );
-    }
-
-    /**
-     * @return array
-     */
-    protected function addQuoteVariables(): array
-    {
-        $quoteVariableBuilder = $this->getFactory()
-            ->getQuoteVariableBuilderPlugin();
-
-        $quoteTransfer = $this->getFactory()
-            ->getCartClient()
-            ->getQuote();
-
-        if (count($quoteTransfer->getItems()) === 0) {
-            return $this->dataLayerVariables;
-        }
-
-        return $this->dataLayerVariables = array_merge(
-            $this->dataLayerVariables,
-            $quoteVariableBuilder->getVariables($quoteTransfer)
-        );
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
-     *
-     * @return array
-     */
-    protected function addOrderVariables(OrderTransfer $orderTransfer): array
-    {
-        $orderVariableBuilder = $this->getFactory()->getOrderVariableBuilderPlugin();
-
-        return $this->dataLayerVariables = array_merge(
-            $this->dataLayerVariables,
-            $orderVariableBuilder->getVariables($orderTransfer)
-        );
-    }
-
-    /**
-     * @param string $page
-     *
-     * @return array
-     */
-    protected function addNewsletterSubscribeVariables(string $page): array
-    {
-        $newsletterVariableBuilder = $this->getFactory()->getNewsletterVariableBuilder();
-
-        return $this->dataLayerVariables = array_merge(
-            $this->dataLayerVariables,
-            $newsletterVariableBuilder->getVariables($page)
-        );
-    }
-
-    /**
      * @return string
      */
     protected function getDataLayerTemplateName(): string
     {
         return '@GoogleTagManager/partials/data-layer.twig';
-    }
-
-    /**
-     * @return string|null
-     */
-    protected function getClientIpAddress(): ?string
-    {
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
-
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
-            $ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-
-        return $ipAddress;
     }
 }

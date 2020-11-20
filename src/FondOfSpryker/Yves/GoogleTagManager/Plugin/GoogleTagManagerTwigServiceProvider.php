@@ -8,7 +8,7 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 use Twig_Environment;
 
 /**
- * @method \FondOfSpryker\Yves\GoogleTagManager\Twig\GoogleTagManagerFactory getFactory()
+ * @method \FondOfSpryker\Yves\GoogleTagManager\GoogleTagManagerFactory getFactory()
  */
 class GoogleTagManagerTwigServiceProvider extends AbstractPlugin implements ServiceProviderInterface
 {
@@ -21,17 +21,15 @@ class GoogleTagManagerTwigServiceProvider extends AbstractPlugin implements Serv
     {
         $googleTagManagerTwigExtension = $this
             ->getFactory()
-            ->createGoogleTagManagerCoreTwigExtension();
+            ->createGoogleTagManagerTwigExtension();
 
-        $app['twig'] = $app->share(
-            $app->extend(
-                'twig',
-                function (Twig_Environment $twig) use ($googleTagManagerTwigExtension, $app) {
-                    $twig->addExtension($googleTagManagerTwigExtension);
+        $app['twig'] = $app->extend(
+            'twig',
+            function (Twig_Environment $twig) use ($googleTagManagerTwigExtension, $app) {
+                $twig->addExtension($googleTagManagerTwigExtension);
 
-                    return $twig;
-                }
-            )
+                return $twig;
+            }
         );
     }
 

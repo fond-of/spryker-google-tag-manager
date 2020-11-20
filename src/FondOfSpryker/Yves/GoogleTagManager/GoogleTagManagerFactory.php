@@ -10,7 +10,7 @@ class GoogleTagManagerFactory extends AbstractFactory
     /**
      * @return \FondOfSpryker\Yves\GoogleTagManager\Twig\GoogleTagManagerTwigExtension
      */
-    public function createGoogleTagManagerTwigExtension()
+    public function createGoogleTagManagerTwigExtension(): GoogleTagManagerTwigExtension
     {
         return new GoogleTagManagerTwigExtension();
     }
