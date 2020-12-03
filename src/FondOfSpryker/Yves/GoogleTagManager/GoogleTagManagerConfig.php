@@ -22,4 +22,12 @@ class GoogleTagManagerConfig extends AbstractBundleConfig
     {
         return $this->get(GoogleTagManagerConstants::ENABLED, false);
     }
+
+    /**
+     * @return string
+     */
+    public function getProtocol(): string
+    {
+        return $this->get(GoogleTagManagerConstants::PROTOCOL, 'http');
+    }
 }

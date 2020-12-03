@@ -7,8 +7,8 @@ use Spryker\Yves\Kernel\Container;
 
 class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvider
 {
-    public const VARIABLE_BUILDER_PLUGINS = 'VARIABLE_BUILDER_PLUGINS';
-    public const DEFAULT_VARIABLE_PLUGINS = 'EXTENSION_DEFAULT_PLUGINS';
+    public const DATALAYER_EXPANDER_PLUGINS = 'DATALAYER_EXPANDER_PLUGINS';
+    public const TWIG_PARAMETER_BAG_EXPANDER_PLUGINS = 'TWIG_PARAMETER_BAG_EXPANDER_PLUGINS';
 
     /**
      * @param \Spryker\Yves\Kernel\Container $container
@@ -17,10 +17,33 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
      */
     public function provideDependencies(Container $container): Container
     {
-        $container = $this->addGoogleTagManagerVariableBuilderPlugins($container);
-        $container = $this->addDefaultGoogleTagManagerExtensionPlugins($container);
+        $container = $this->addDataLayerExpanderPlugins($container);
+        $container = $this->addTwigParameterBagExpanderPlugins($container);
 
         return $container;
+    }
+
+
+    /**
+     * @param \Spryker\Yves\Kernel\Container $container
+     *
+     * @return \Spryker\Yves\Kernel\Container
+     */
+    protected function addDataLayerExpanderPlugins(Container $container): Container
+    {
+        $container->set(static::DATALAYER_EXPANDER_PLUGINS, function () {
+            return $this->getDataLayerExpanderPlugins();
+        });
+
+        return $container;
+    }
+
+    /**
+     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerDataLayerExpanderPluginInterface[][][];
+     */
+    protected function getDataLayerExpanderPlugins(): array
+    {
+        return [];
     }
 
     /**
@@ -28,57 +51,19 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
      *
      * @return \Spryker\Yves\Kernel\Container
      */
-    protected function addDefaultGoogleTagManagerExtensionPlugins(Container $container): Container
+    protected function addTwigParameterBagExpanderPlugins(Container $container): Container
     {
-        $container->set(static::DEFAULT_VARIABLE_PLUGINS, function () {
-            return $this->getDefaultGoogleTagManagerExtensionPlugins();
+        $container->set(static::TWIG_PARAMETER_BAG_EXPANDER_PLUGINS, function () {
+            return $this->getTwigParameterBagExpanderPlugins();
         });
 
         return $container;
     }
 
     /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
+     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerDataLayerExpanderPluginInterface[][][];
      */
-    protected function addGoogleTagManagerVariableBuilderPlugins(Container $container): Container
-    {
-        $container->set(static::VARIABLE_BUILDER_PLUGINS, function () {
-            return $this->getGoogleTagManagerVariableBuilderPlugins();
-        });
-
-        return $container;
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerVariableBuilderPluginInterface[][][];
-     */
-    protected function getGoogleTagManagerVariableBuilderPlugins(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerVariableBuilderPluginInterface[];
-     */
-    protected function getGoogleTagManagerCategoryVariableBuilderPlugins(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerVariableBuilderPluginInterface[];
-     */
-    protected function getGoogleTagManagerProductCategoryVariableBuilderPlugins(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerVariableBuilderPluginInterface[];
-     */
-    protected function getDefaultGoogleTagManagerExtensionPlugins(): array
+    protected function getTwigParameterBagExpanderPlugins(): array
     {
         return [];
     }

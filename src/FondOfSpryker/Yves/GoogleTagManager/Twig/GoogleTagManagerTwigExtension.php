@@ -2,8 +2,7 @@
 
 namespace FondOfSpryker\Yves\GoogleTagManager\Twig;
 
-use Generated\Shared\Transfer\OrderTransfer;
-use Generated\Shared\Transfer\ProductAbstractTransfer;
+use Generated\Shared\Transfer\GoogleTagManagerTransfer;
 use SprykerShop\Yves\ShopApplication\Plugin\AbstractTwigExtensionPlugin;
 use Twig\Environment;
 use Twig_SimpleFunction;
@@ -76,56 +75,38 @@ class GoogleTagManagerTwigExtension extends AbstractTwigExtensionPlugin
     }
 
     /**
-     * @param \Twig\Environment $twig
+     * @param Environment $twig
      * @param string $page
-     * @param array $params
-     *
+     * @param array $twigVariableBag
      * @return string
+     *
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    public function renderDataLayer(Environment $twig, string $page, array $params): string
+    public function renderDataLayer(Environment $twig, string $page, array $twigVariableBag): string
     {
         if (!$this->getConfig()->isEnabled() || !$this->getConfig()->getContainerID()) {
             return '';
         }
 
-        $dataLayerVariables = $this->addDefaultVariables($page, $params);
+        $dataLayerVariables = [];
 
-        foreach ($this->getFactory()->getVariableBuilderPlugins() as $type => $variableBuilderPlugins) {
-            if (strtolower($type) !== strtolower($page)) {
-                continue;
+        foreach ($this->getFactory()->getTwigParameterBagExpanderPlugins() as $twigVariableBagExpanderPlugin) {
+            if ($twigVariableBagExpanderPlugin->isApplicable($twigVariableBag)) {
+                $twigVariableBag = $twigVariableBagExpanderPlugin->expand($twigVariableBag);
             }
+        }
 
-            foreach ($variableBuilderPlugins as $pageTypePlugins) {
-                foreach ($pageTypePlugins as $plugin) {
-                    $dataLayerVariables = array_merge(
-                        $dataLayerVariables,
-                        $plugin->addVariable($page, $params)
-                    );
-                }
+        foreach ($this->getFactory()->getDataLayerExpanderPlugins() as $type => $dataLayerExpanderPlugin) {
+            if ($dataLayerExpanderPlugin->isApplicable($page, $twigVariableBag) === true) {
+                $dataLayerVariables = $dataLayerExpanderPlugin->expand($page, $twigVariableBag, $dataLayerVariables);
             }
         }
 
         return $twig->render($this->getDataLayerTemplateName(), [
             'data' => $dataLayerVariables,
         ]);
-    }
-
-    /**
-     * @param $page
-     * @param array $params
-     *
-     * @return array
-     */
-    protected function addDefaultVariables($page, array $params = []): array
-    {
-        $dataLayerVariables = [];
-        $defaultPlugins = $this->getFactory()->getDefaultVariableBuilderPlugin();
-
-        foreach ($defaultPlugins as $plugin) {
-            $dataLayerVariables[] = $plugin->addVariable($page, $params);
-        }
-
-        return array_merge([], ...$dataLayerVariables);
     }
 
     /**
