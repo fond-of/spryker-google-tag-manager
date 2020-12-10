@@ -93,7 +93,7 @@ class GoogleTagManagerTwigExtension extends AbstractTwigExtensionPlugin
         $dataLayerVariables = [];
 
         foreach ($this->getFactory()->getTwigParameterBagExpanderPlugins() as $twigVariableBagExpanderPlugin) {
-            if ($twigVariableBagExpanderPlugin->isApplicable($twigVariableBag)) {
+            if ($twigVariableBagExpanderPlugin->isApplicable($page, $twigVariableBag)) {
                 $twigVariableBag = $twigVariableBagExpanderPlugin->expand($twigVariableBag);
             }
         }
