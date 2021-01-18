@@ -16,18 +16,18 @@ class GoogleTagManagerFactory extends AbstractFactory
     }
 
     /**
-     * @return GoogleTagManagerVariableBuilderPlugin[][][]
+     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\GoogleTagManagerDataLayerExpanderPluginInterface[];
      */
-    public function getVariableBuilderPlugins(): array
+    public function getDataLayerExpanderPlugins(): array
     {
-        return $this->getProvidedDependency(GoogleTagManagerDependencyProvider::VARIABLE_BUILDER_PLUGINS);
+        return $this->getProvidedDependency(GoogleTagManagerDependencyProvider::DATALAYER_EXPANDER_PLUGINS);
     }
 
     /**
-     * @return GoogleTagManagerVariableBuilderPlugin[]
+     * @return \FondOfSpryker\Yves\GoogleTagManagerExtension\Dependency\TwigParameterBagExpanderPluginInterface[];
      */
-    public function getDefaultVariableBuilderPlugin(): array
+    public function getTwigParameterBagExpanderPlugins(): array
     {
-        return $this->getProvidedDependency(GoogleTagManagerDependencyProvider::DEFAULT_VARIABLE_PLUGINS);
+        return $this->getProvidedDependency(GoogleTagManagerDependencyProvider::TWIG_PARAMETER_BAG_EXPANDER_PLUGINS);
     }
 }
