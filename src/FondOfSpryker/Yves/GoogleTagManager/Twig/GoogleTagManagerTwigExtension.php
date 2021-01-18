@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Yves\GoogleTagManager\Twig;
 
-use Generated\Shared\Transfer\GoogleTagManagerTransfer;
 use SprykerShop\Yves\ShopApplication\Plugin\AbstractTwigExtensionPlugin;
 use Twig\Environment;
 use Twig_SimpleFunction;
@@ -75,14 +74,11 @@ class GoogleTagManagerTwigExtension extends AbstractTwigExtensionPlugin
     }
 
     /**
-     * @param Environment $twig
+     * @param \Twig\Environment $twig
      * @param string $page
      * @param array $twigVariableBag
-     * @return string
      *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return string
      */
     public function renderDataLayer(Environment $twig, string $page, array $twigVariableBag): string
     {

@@ -23,7 +23,6 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
         return $container;
     }
 
-
     /**
      * @param \Spryker\Yves\Kernel\Container $container
      *
