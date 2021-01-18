@@ -30,8 +30,10 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
      */
     protected function addDataLayerExpanderPlugins(Container $container): Container
     {
-        $container->set(static::DATALAYER_EXPANDER_PLUGINS, function () {
-            return $this->getDataLayerExpanderPlugins();
+        $self = $this;
+
+        $container->set(static::DATALAYER_EXPANDER_PLUGINS, static function () use ($self) {
+            return $self->getDataLayerExpanderPlugins();
         });
 
         return $container;
@@ -52,7 +54,9 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
      */
     protected function addTwigParameterBagExpanderPlugins(Container $container): Container
     {
-        $container->set(static::TWIG_PARAMETER_BAG_EXPANDER_PLUGINS, function () {
+        $self = $this;
+
+        $container->set(static::TWIG_PARAMETER_BAG_EXPANDER_PLUGINS, static function () use ($self) {
             return $this->getTwigParameterBagExpanderPlugins();
         });
 
