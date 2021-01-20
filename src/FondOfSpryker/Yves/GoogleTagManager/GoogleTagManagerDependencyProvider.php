@@ -57,7 +57,7 @@ class GoogleTagManagerDependencyProvider extends AbstractBundleDependencyProvide
         $self = $this;
 
         $container->set(static::TWIG_PARAMETER_BAG_EXPANDER_PLUGINS, static function () use ($self) {
-            return $this->getTwigParameterBagExpanderPlugins();
+            return $self->getTwigParameterBagExpanderPlugins();
         });
 
         return $container;
