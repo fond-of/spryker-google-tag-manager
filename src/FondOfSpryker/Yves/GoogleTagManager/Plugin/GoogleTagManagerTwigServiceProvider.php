@@ -8,6 +8,7 @@ use Spryker\Yves\Kernel\AbstractPlugin;
 use Twig_Environment;
 
 /**
+ * @deprecated Use {@link \FondOfSpryker\Yves\GoogleTagManager\Plugin\Twig\GoogleTagManagerTwigPlugin} instead.
  * @method \FondOfSpryker\Yves\GoogleTagManager\GoogleTagManagerFactory getFactory()
  */
 class GoogleTagManagerTwigServiceProvider extends AbstractPlugin implements ServiceProviderInterface
